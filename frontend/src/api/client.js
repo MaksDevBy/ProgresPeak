@@ -11,10 +11,14 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      if (
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          originalRequest.url !== "/token/refresh/"
+      ) {
+          originalRequest._retry = true;
       try {
-        const response = await api.post('/token/refresh/', {});
+        await api.post('/token/refresh/', {});
         return api(originalRequest); // Повторить исходный запрос
       } catch (refreshError) {
         console.error('Token refresh failed:', refreshError);
