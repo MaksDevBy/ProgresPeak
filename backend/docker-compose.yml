@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db_progres_peack
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: '1234'
+      POSTGRES_DB: db_progres_peack
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_progres_peack:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_progres_peack:
+    driver: local
